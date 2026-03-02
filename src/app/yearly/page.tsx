@@ -68,6 +68,7 @@ export default function YearlyPage() {
                                         <Link
                                             href={`/yearly/${record.year}`}
                                             className="text-blue-600 dark:text-blue-400 hover:underline"
+                                            aria-label={`${record.year}年の詳細を見る`}
                                         >
                                             →
                                         </Link>

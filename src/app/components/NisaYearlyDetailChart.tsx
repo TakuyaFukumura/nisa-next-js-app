@@ -33,7 +33,7 @@ export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}
                         dataKey="value"
                         label={({name, value}) => `${name}: ${formatAmount(value)}`}
                     >
-                        {data.map((entry, index) => (
+                        {data.map((_entry, index) => (
                             <Cell key={`cell-${index}`} fill={colors[index % colors.length]}/>
                         ))}
                     </Pie>

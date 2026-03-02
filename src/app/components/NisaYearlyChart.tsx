@@ -32,7 +32,7 @@ export default function NisaYearlyChart({data}: Props) {
                     y={YEARLY_TOTAL_LIMIT}
                     stroke="#ef4444"
                     strokeDasharray="6 3"
-                    label={{value: '年間上限 360万円', position: 'insideTopRight', fill: '#ef4444', fontSize: 12}}
+                    label={{value: `年間上限 ${formatAmount(YEARLY_TOTAL_LIMIT)}`, position: 'insideTopRight', fill: '#ef4444', fontSize: 12}}
                 />
                 <Bar dataKey="つみたて投資枠" stackId="a" fill="#3b82f6"/>
                 <Bar dataKey="成長投資枠" stackId="a" fill="#10b981"/>

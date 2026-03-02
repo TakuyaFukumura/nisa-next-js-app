@@ -11,7 +11,17 @@ import {DarkModeProvider} from '@/app/components/DarkModeProvider';
 import Header from '../../../../src/app/components/Header';
 import '@testing-library/jest-dom';
 
+// next/navigation の usePathname をモック
+const mockUsePathname = jest.fn();
+jest.mock('next/navigation', () => ({
+    usePathname: () => mockUsePathname(),
+}));
+
 describe('Header', () => {
+    beforeEach(() => {
+        mockUsePathname.mockReturnValue('/');
+    });
+
     const renderWithProvider = (initialTheme?: 'light' | 'dark') => {
         if (initialTheme) {
             window.localStorage.getItem = jest.fn(() => initialTheme);
@@ -44,6 +54,66 @@ describe('Header', () => {
 
             const button = screen.getByRole('button');
             expect(button).toBeInTheDocument();
+        });
+    });
+
+    describe('ナビゲーションリンク', () => {
+        it('全体リンクが表示される', () => {
+            renderWithProvider();
+
+            expect(screen.getByRole('link', {name: '全体'})).toBeInTheDocument();
+        });
+
+        it('年別リンクが表示される', () => {
+            renderWithProvider();
+
+            expect(screen.getByRole('link', {name: '年別'})).toBeInTheDocument();
+        });
+
+        it('全体リンクのhrefが正しい', () => {
+            renderWithProvider();
+
+            const link = screen.getByRole('link', {name: '全体'});
+            expect(link).toHaveAttribute('href', '/');
+        });
+
+        it('年別リンクのhrefが正しい', () => {
+            renderWithProvider();
+
+            const link = screen.getByRole('link', {name: '年別'});
+            expect(link).toHaveAttribute('href', '/yearly');
+        });
+
+        it('現在のパスが / の場合、全体リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: '全体'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /yearly の場合、年別リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/yearly');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: '年別'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /yearly/2024 の場合、年別リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/yearly/2024');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: '年別'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが / の場合、年別リンクはアクティブ状態にならない', () => {
+            mockUsePathname.mockReturnValue('/');
+            renderWithProvider();
+
+            const inactiveLink = screen.getByRole('link', {name: '年別'});
+            expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
     });
 
@@ -202,3 +272,4 @@ describe('Header', () => {
         });
     });
 });
+

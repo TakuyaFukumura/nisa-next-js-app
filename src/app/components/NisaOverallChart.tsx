@@ -30,7 +30,7 @@ export default function NisaOverallChart({usedAmount, remainingAmount, usageRate
                         dataKey="value"
                         label={({name, value}) => `${name}: ${formatAmount(value)}`}
                     >
-                        {data.map((entry, index) => (
+                        {data.map((_entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
                         ))}
                     </Pie>
