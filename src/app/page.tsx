@@ -1,74 +1,67 @@
-'use client';
-
-import {useEffect, useState} from 'react';
+import Link from 'next/link';
+import {loadNisaData} from '../../lib/csvLoader';
+import {formatAmount, NISA_TOTAL_LIMIT} from '../../lib/nisaConstants';
+import NisaOverallChart from './components/NisaOverallChart';
 
 export default function Home() {
-    const [message, setMessage] = useState<string>('読み込み中...');
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchMessage = async () => {
-            try {
-                const response = await fetch('/api/message');
-                if (!response.ok) {
-                    throw new Error('メッセージの取得に失敗しました');
-                }
-                const data = await response.json();
-                setMessage(data.message);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMessage();
-    }, []);
-
-    let content;
-    if (loading) {
-        content = (
-            <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <span className="ml-2 text-gray-600 dark:text-gray-400">読み込み中...</span>
-            </div>
-        );
-    } else if (error) {
-        content = (
-            <div className="text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                エラー: {error}
-            </div>
-        );
-    } else {
-        content = (
-            <div
-                className="text-2xl font-semibold text-blue-600 dark:text-blue-400 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
-                {message}
-            </div>
-        );
-    }
+    const records = loadNisaData();
+    const usedAmount = records.reduce((sum, r) => sum + r.tsumitateAmount + r.growthAmount, 0);
+    const remainingAmount = Math.max(0, NISA_TOTAL_LIMIT - usedAmount);
+    const usageRate = (usedAmount / NISA_TOTAL_LIMIT) * 100;
 
     return (
-        <div
-            className="font-sans flex items-center justify-center min-h-[calc(100vh-4rem)] bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-            <main className="text-center p-8">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 max-w-md mx-auto">
-                    <h1 className="text-4xl font-bold mb-8 text-gray-800 dark:text-gray-200">
-                        nisa-next-js-app
-                    </h1>
+        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+            <main className="max-w-2xl mx-auto">
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+                    NISA利用状況
+                </h1>
 
-                    <div className="mb-8">
-                        {content}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+                    <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                        生涯投資枠 利用状況
+                    </h2>
+
+                    <NisaOverallChart
+                        usedAmount={usedAmount}
+                        remainingAmount={remainingAmount}
+                        usageRate={usageRate}
+                    />
+
+                    <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                            <div className="text-gray-500 dark:text-gray-400">生涯投資枠</div>
+                            <div className="font-semibold text-gray-800 dark:text-gray-200">
+                                {formatAmount(NISA_TOTAL_LIMIT)}
+                            </div>
+                        </div>
+                        <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-3">
+                            <div className="text-gray-500 dark:text-gray-400">利用済み合計</div>
+                            <div className="font-semibold text-blue-600 dark:text-blue-400">
+                                {formatAmount(usedAmount)}
+                            </div>
+                        </div>
+                        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                            <div className="text-gray-500 dark:text-gray-400">残り枠</div>
+                            <div className="font-semibold text-gray-800 dark:text-gray-200">
+                                {formatAmount(remainingAmount)}
+                            </div>
+                        </div>
+                        <div className="bg-green-50 dark:bg-green-900/30 rounded-lg p-3">
+                            <div className="text-gray-500 dark:text-gray-400">利用率</div>
+                            <div className="font-semibold text-green-600 dark:text-green-400">
+                                {usageRate.toFixed(1)}%
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                        このメッセージはSQLiteデータベースから取得されています
-                    </p>
-
-                    <div className="text-xs text-gray-400 dark:text-gray-500">
-                        Next.js + TypeScript + Tailwind CSS + SQLite
-                    </div>
+                <div className="text-center">
+                    <Link
+                        href="/yearly"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
+                    >
+                        年別利用状況を見る →
+                    </Link>
                 </div>
             </main>
         </div>
