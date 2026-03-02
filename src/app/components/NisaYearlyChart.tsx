@@ -1,7 +1,7 @@
 'use client';
 
 import {Bar, BarChart, CartesianGrid, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import {YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
+import {formatAmount, YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
 
 type YearlyData = {
     year: number;
@@ -12,10 +12,6 @@ type YearlyData = {
 type Props = {
     data: YearlyData[];
 };
-
-function formatYen(value: number): string {
-    return value.toLocaleString('ja-JP') + '円';
-}
 
 export default function NisaYearlyChart({data}: Props) {
     const chartData = data.map((d) => ({
@@ -30,7 +26,7 @@ export default function NisaYearlyChart({data}: Props) {
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="year"/>
                 <YAxis tickFormatter={(v: number) => `${(v / 10000).toFixed(0)}万`}/>
-                <Tooltip formatter={(value: number) => formatYen(value)}/>
+                <Tooltip formatter={(value: number) => formatAmount(value)}/>
                 <Legend/>
                 <ReferenceLine
                     y={YEARLY_TOTAL_LIMIT}

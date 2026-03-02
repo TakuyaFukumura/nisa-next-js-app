@@ -1,6 +1,7 @@
 'use client';
 
 import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from 'recharts';
+import {formatAmount} from '../../../lib/nisaConstants';
 
 type Props = {
     usedAmount: number;
@@ -9,10 +10,6 @@ type Props = {
 };
 
 const COLORS = ['#3b82f6', '#e5e7eb'];
-
-function formatAmount(amount: number): string {
-    return amount.toLocaleString('ja-JP') + '円';
-}
 
 export default function NisaOverallChart({usedAmount, remainingAmount, usageRate}: Props) {
     const data = [

@@ -1,6 +1,7 @@
 'use client';
 
 import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from 'recharts';
+import {formatAmount} from '../../../lib/nisaConstants';
 
 type Props = {
     title: string;
@@ -8,10 +9,6 @@ type Props = {
     limit: number;
     colors: [string, string];
 };
-
-function formatAmount(amount: number): string {
-    return amount.toLocaleString('ja-JP') + '円';
-}
 
 export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}: Props) {
     const remainingAmount = Math.max(0, limit - usedAmount);
