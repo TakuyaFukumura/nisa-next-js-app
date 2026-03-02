@@ -147,20 +147,20 @@ year,tsumitate_amount,growth_amount
 2025,400000,2400000
 ```
 
-| カラム名 | 型 | 説明 |
-|----------|----|------|
-| `year` | 整数 | 投資年（西暦） |
+| カラム名               | 型  | 説明             |
+|--------------------|----|----------------|
+| `year`             | 整数 | 投資年（西暦）        |
 | `tsumitate_amount` | 整数 | つみたて投資枠の利用額（円） |
-| `growth_amount` | 整数 | 成長投資枠の利用額（円） |
+| `growth_amount`    | 整数 | 成長投資枠の利用額（円）   |
 
 ### NISA制度の定数
 
-| 定数名 | 値 | 説明 |
-|--------|----|------|
-| NISA_TOTAL_LIMIT | 1,800万円 | NISA生涯投資枠上限 |
-| TSUMITATE_YEARLY_LIMIT | 120万円 | つみたて投資枠 年間上限 |
-| GROWTH_YEARLY_LIMIT | 240万円 | 成長投資枠 年間上限 |
-| YEARLY_TOTAL_LIMIT | 360万円 | 年間投資枠合計上限 |
+| 定数名                    | 値       | 説明           |
+|------------------------|---------|--------------|
+| NISA_TOTAL_LIMIT       | 1,800万円 | NISA生涯投資枠上限  |
+| TSUMITATE_YEARLY_LIMIT | 120万円   | つみたて投資枠 年間上限 |
+| GROWTH_YEARLY_LIMIT    | 240万円   | 成長投資枠 年間上限   |
+| YEARLY_TOTAL_LIMIT     | 360万円   | 年間投資枠合計上限    |
 
 ## 開発
 

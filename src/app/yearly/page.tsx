@@ -1,13 +1,19 @@
 import Link from 'next/link';
 import {loadNisaData} from '../../../lib/csvLoader';
-import {formatAmount, GROWTH_YEARLY_LIMIT, TSUMITATE_YEARLY_LIMIT, YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
+import {
+    formatAmount,
+    GROWTH_YEARLY_LIMIT,
+    TSUMITATE_YEARLY_LIMIT,
+    YEARLY_TOTAL_LIMIT
+} from '../../../lib/nisaConstants';
 import NisaYearlyChart from '../components/NisaYearlyChart';
 
 export default function YearlyPage() {
     const records = loadNisaData();
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+        <div
+            className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
             <main className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
                     年別NISA利用状況

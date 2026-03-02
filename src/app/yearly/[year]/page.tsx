@@ -5,7 +5,7 @@ import {formatAmount, GROWTH_YEARLY_LIMIT, TSUMITATE_YEARLY_LIMIT} from '../../.
 import NisaYearlyDetailChart from '../../components/NisaYearlyDetailChart';
 
 type Props = {
-    params: Promise<{year: string}>;
+    params: Promise<{ year: string }>;
 };
 
 export default async function YearDetailPage({params}: Props) {
@@ -27,7 +27,8 @@ export default async function YearDetailPage({params}: Props) {
     const growthRate = (record.growthAmount / GROWTH_YEARLY_LIMIT) * 100;
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+        <div
+            className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
             <main className="max-w-3xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
                     {yearNum}年 NISA内訳
@@ -53,7 +54,8 @@ export default async function YearDetailPage({params}: Props) {
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
                     <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">サマリー</h2>
                     <div className="space-y-3 text-sm">
-                        <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                        <div
+                            className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span className="text-gray-600 dark:text-gray-400">つみたて投資枠</span>
                             <span className="font-medium text-gray-800 dark:text-gray-200">
                                 利用済み {formatAmount(record.tsumitateAmount)} / 上限 {formatAmount(TSUMITATE_YEARLY_LIMIT)}（{tsumitateRate.toFixed(1)}%）
