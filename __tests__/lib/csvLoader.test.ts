@@ -80,5 +80,31 @@ describe('csvLoader', () => {
 
             expect(records).toHaveLength(0);
         });
+
+        it('CRLF行末のCSVを正しく読み込む', async () => {
+            mockReadFileSync.mockReturnValue(
+                'year,tsumitate_amount,growth_amount\r\n2024,400000,2400000\r\n2025,400000,2400000\r\n'
+            );
+
+            const {loadNisaData} = await import('../../lib/csvLoader');
+            const records = loadNisaData();
+
+            expect(records).toHaveLength(2);
+            expect(records[0]).toEqual({
+                year: 2024,
+                tsumitateAmount: 400000,
+                growthAmount: 2400000,
+            });
+        });
+
+        it('不正な行（カラム不足）の場合にエラーをスローする', async () => {
+            mockReadFileSync.mockReturnValue(
+                'year,tsumitate_amount,growth_amount\n2024,400000\n'
+            );
+
+            const {loadNisaData} = await import('../../lib/csvLoader');
+
+            expect(() => loadNisaData()).toThrow('Invalid CSV data');
+        });
     });
 });

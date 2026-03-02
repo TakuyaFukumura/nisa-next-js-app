@@ -1,16 +1,11 @@
 'use client';
 
 import {Bar, BarChart, CartesianGrid, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+import {NisaRecord} from '../../../lib/csvLoader';
 import {formatAmount, YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
 
-type YearlyData = {
-    year: number;
-    tsumitateAmount: number;
-    growthAmount: number;
-};
-
 type Props = {
-    data: YearlyData[];
+    data: NisaRecord[];
 };
 
 export default function NisaYearlyChart({data}: Props) {
