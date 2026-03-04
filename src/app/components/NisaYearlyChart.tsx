@@ -27,7 +27,7 @@ export default function NisaYearlyChart({data}: Props) {
 
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData} margin={{top: 10, right: 30, left: 20, bottom: 5}}>
+            <BarChart data={chartData} margin={{top: 10, right: 10, left: 10, bottom: 5}}>
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="year"/>
                 <YAxis tickFormatter={(v: number) => `${(v / 10000).toFixed(0)}万`}/>
@@ -38,10 +38,10 @@ export default function NisaYearlyChart({data}: Props) {
                     stroke="#ef4444"
                     strokeDasharray="6 3"
                     label={{
-                        value: `年間上限 ${formatAmount(YEARLY_TOTAL_LIMIT)}`,
-                        position: 'insideTopRight',
+                        value: `上限 ${formatAmount(YEARLY_TOTAL_LIMIT)}`,
+                        position: 'insideTopLeft',
                         fill: '#ef4444',
-                        fontSize: 12
+                        fontSize: 11
                     }}
                 />
                 <Bar dataKey="つみたて投資枠" stackId="a" fill="#3b82f6"/>

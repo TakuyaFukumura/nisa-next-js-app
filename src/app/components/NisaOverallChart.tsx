@@ -28,7 +28,7 @@ export default function NisaOverallChart({usedAmount, remainingAmount, usageRate
                         innerRadius={80}
                         outerRadius={120}
                         dataKey="value"
-                        label={({name, value}) => `${name}: ${formatAmount(value)}`}
+                        label={false}
                     >
                         {data.map((_entry, index) => (
                             <Cell key={_entry.name} fill={COLORS[index % COLORS.length]}/>

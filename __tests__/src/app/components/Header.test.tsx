@@ -52,7 +52,14 @@ describe('Header', () => {
         it('テーマ切り替えボタンが表示される', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
+            expect(button).toBeInTheDocument();
+        });
+
+        it('ハンバーガーボタンが表示される', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
             expect(button).toBeInTheDocument();
         });
     });
@@ -133,7 +140,7 @@ describe('Header', () => {
         it('ボタンのtitle属性が正しく設定される', () => {
             renderWithProvider('light');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle('現在: ライトモード');
             expect(button).toHaveAttribute('title', '現在: ライトモード');
         });
     });
@@ -156,7 +163,7 @@ describe('Header', () => {
         it('ボタンのtitle属性が正しく設定される', () => {
             renderWithProvider('dark');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle('現在: ダークモード');
             expect(button).toHaveAttribute('title', '現在: ダークモード');
         });
     });
@@ -171,7 +178,7 @@ describe('Header', () => {
             expect(screen.getByText('ライトモード')).toBeInTheDocument();
 
             // ボタンをクリック
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             fireEvent.click(button);
 
             // ダークモードに変更されたことを確認
@@ -187,7 +194,7 @@ describe('Header', () => {
             expect(screen.getByText('ダークモード')).toBeInTheDocument();
 
             // ボタンをクリック
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             fireEvent.click(button);
 
             // ライトモードに変更されたことを確認
@@ -198,7 +205,7 @@ describe('Header', () => {
         it('複数回のクリックで正しく切り替わる', () => {
             renderWithProvider('light');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
 
             // ライトモード → ダークモード
             fireEvent.click(button);
@@ -215,10 +222,10 @@ describe('Header', () => {
     });
 
     describe('ボタンのアクセシビリティ', () => {
-        it('ボタンがキーボードでアクセス可能', () => {
+        it('テーマ切り替えボタンがキーボードでアクセス可能', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             expect(button).toBeInTheDocument();
 
             // タブキーでフォーカス可能かを確認
@@ -226,10 +233,20 @@ describe('Header', () => {
             expect(button).toHaveFocus();
         });
 
+        it('ハンバーガーボタンがキーボードでアクセス可能', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toBeInTheDocument();
+
+            button.focus();
+            expect(button).toHaveFocus();
+        });
+
         it('適切なaria属性が設定されている', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
 
             // title属性による説明があることを確認
             expect(button).toHaveAttribute('title');
@@ -264,10 +281,10 @@ describe('Header', () => {
             expect(header).toHaveClass('bg-white/80', 'dark:bg-gray-800/80');
         });
 
-        it('ボタンに適切なスタイルクラスが適用される', () => {
+        it('テーマ切り替えボタンに適切なスタイルクラスが適用される', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             expect(button).toHaveClass('flex', 'items-center', 'gap-2');
         });
     });

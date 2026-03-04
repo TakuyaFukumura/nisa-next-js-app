@@ -11,13 +11,13 @@ export default function Home() {
 
     return (
         <div
-            className="min-h-[calc(100vh-4rem)] bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+            className="min-h-[calc(100vh-4rem)] bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 lg:p-6">
             <main className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
                     NISA利用状況
                 </h1>
 
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
                     <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
                         生涯投資枠 利用状況
                     </h2>
