@@ -38,7 +38,7 @@ describe('Header', () => {
         it('ヘッダータイトルが表示される', () => {
             renderWithProvider();
 
-            expect(screen.getByText('nisa-next-js-app')).toBeInTheDocument();
+            expect(screen.getByText('nisa')).toBeInTheDocument();
         });
 
         it('ヘッダーのHTML構造が正しい', () => {
