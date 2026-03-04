@@ -243,6 +243,20 @@ describe('Header', () => {
             expect(button).toHaveFocus();
         });
 
+        it('ハンバーガーボタンに aria-expanded が設定されている', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toHaveAttribute('aria-expanded', 'false');
+        });
+
+        it('ハンバーガーボタンに aria-controls が設定されている', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toHaveAttribute('aria-controls', 'mobile-menu');
+        });
+
         it('適切なaria属性が設定されている', () => {
             renderWithProvider();
 
@@ -251,6 +265,77 @@ describe('Header', () => {
             // title属性による説明があることを確認
             expect(button).toHaveAttribute('title');
             expect(button.getAttribute('title')).toContain('現在:');
+        });
+    });
+
+    describe('ハンバーガーメニューの動作', () => {
+        it('ハンバーガーボタン押下でドロワーが表示される', () => {
+            renderWithProvider();
+
+            // 初期状態ではドロワー非表示
+            expect(screen.queryByRole('navigation', {hidden: true})).not.toHaveAttribute('id', 'mobile-menu');
+
+            // ボタンをクリック
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            fireEvent.click(button);
+
+            // ドロワーが表示される
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+        });
+
+        it('ハンバーガーボタン再クリックでドロワーが非表示になる', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+
+            // 開く
+            fireEvent.click(button);
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // 再クリックで閉じる
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを閉じる'}));
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('ドロワー開閉で aria-label が切り替わる', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toHaveAttribute('aria-expanded', 'false');
+
+            fireEvent.click(button);
+
+            const openButton = screen.getByRole('button', {name: 'メニューを閉じる'});
+            expect(openButton).toHaveAttribute('aria-expanded', 'true');
+        });
+
+        it('ドロワー内リンクをクリックするとメニューが閉じる', () => {
+            renderWithProvider();
+
+            // ドロワーを開く
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // ドロワー内の「全体」リンクをクリック
+            const links = screen.getAllByRole('link', {name: '全体'});
+            fireEvent.click(links[links.length - 1]);
+
+            // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('メニュー外クリックでドロワーが閉じる', () => {
+            renderWithProvider();
+
+            // ドロワーを開く
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // ヘッダー外をクリック
+            fireEvent.mouseDown(document.body);
+
+            // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
         });
     });
 

@@ -9,7 +9,7 @@ export default function Header() {
     const {theme, setTheme} = useDarkMode();
     const pathname = usePathname();
     const [menuOpen, setMenuOpen] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
+    const menuRef = useRef<HTMLElement | null>(null);
 
     const handleThemeToggle = () => {
         if (theme === 'light') {
@@ -69,7 +69,9 @@ export default function Header() {
                             className="md:hidden flex items-center p-2 text-gray-700 dark:text-gray-300
                             hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
                             onClick={() => setMenuOpen(!menuOpen)}
-                            aria-label="メニューを開く"
+                            aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
+                            aria-expanded={menuOpen}
+                            aria-controls="mobile-menu"
                         >
                             ☰
                         </button>
@@ -102,7 +104,7 @@ export default function Header() {
             </div>
 
             {menuOpen && (
-                <div className="md:hidden absolute top-16 left-0 w-full bg-white/95 dark:bg-gray-800/95
+                <div id="mobile-menu" className="md:hidden absolute top-16 left-0 w-full bg-white/95 dark:bg-gray-800/95
                     backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-lg">
                     <nav className="flex flex-col p-4 gap-2">
                         <Link
