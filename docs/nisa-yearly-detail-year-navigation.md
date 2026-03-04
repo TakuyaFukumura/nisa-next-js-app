@@ -48,12 +48,12 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
 
 ```
 ◀  2025年  ▶
-  ＮＩＳＡ内訳
+  NISA内訳
 ```
 
 - `◀`（前の年へ）と `▶`（次の年へ）をクリックすることで年を切り替える。
 - 年号の表示（例：`2025年`）は中央に配置する。
-- `ＮＩＳＡ内訳` の文字は次の行に表示する。
+- `NISA内訳` の文字は次の行に表示する。
 - データが存在しない前後の年へのボタンは非活性（グレーアウト）にし、クリック不可とする。
 
 ### ワイヤーフレーム
@@ -61,7 +61,7 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
 ```
 ┌─────────────────────────────────────┐
 │      ◀  2025年  ▶                   │
-│         ＮＩＳＡ内訳                │
+│         NISA内訳                    │
 │                                     │
 │  [つみたて投資枠グラフ] [成長投資枠グラフ] │
 │                                     │
@@ -105,7 +105,7 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
 
 | ファイルパス | 変更内容 |
 |-------------|---------|
-| `src/app/yearly/[year]/page.tsx` | 年ナビゲーション用UIを追加する。ヘッダー部分を `◀ {年}年 ▶ / ＮＩＳＡ内訳` の形式に変更する。 |
+| `src/app/yearly/[year]/page.tsx` | 年ナビゲーション用UIを追加する。ヘッダー部分を `◀ {年}年 ▶ / NISA内訳` の形式に変更する。 |
 
 ---
 
@@ -119,13 +119,18 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
    - 前の年が存在しない場合：`◀` をテキストとしてレンダリングし、`opacity-30` などで非活性を表現する。
    - 次の年が存在する場合：`▶` を `<Link href="/yearly/{次の年}">` としてレンダリングする。
    - 次の年が存在しない場合：`▶` をテキストとしてレンダリングし、`opacity-30` などで非活性を表現する。
-3. `ＮＩＳＡ内訳` の文字を年号の次の行に表示する。
+3. `NISA内訳` の文字を年号の次の行に表示する。
 
 ### 実装イメージ（擬似コード）
 
 ```tsx
 const sortedYears = records.map((r) => r.year).sort((a, b) => a - b);
 const currentIndex = sortedYears.indexOf(yearNum);
+
+// currentIndex が -1 の場合は notFound() で処理済みのため、ここには到達しない想定
+// ただし実装時は念のため明示的にガードすること
+// if (currentIndex === -1) { notFound(); }
+
 const prevYear = currentIndex > 0 ? sortedYears[currentIndex - 1] : null;
 const nextYear = currentIndex < sortedYears.length - 1 ? sortedYears[currentIndex + 1] : null;
 ```
@@ -133,18 +138,42 @@ const nextYear = currentIndex < sortedYears.length - 1 ? sortedYears[currentInde
 ```tsx
 <div className="flex items-center justify-center gap-4 mb-2">
   {prevYear !== null ? (
-    <Link href={`/yearly/${prevYear}`} aria-label={`${prevYear}年の内訳へ`}>◀</Link>
+    <Link
+      href={`/yearly/${prevYear}`}
+      aria-label={`${prevYear}年の内訳へ`}
+      className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+    >
+      ◀
+    </Link>
   ) : (
-    <span className="opacity-30" aria-disabled="true">◀</span>
+    <span
+      className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
+      aria-disabled="true"
+      aria-label="前の年の内訳へ（移動不可）"
+    >
+      ◀
+    </span>
   )}
-  <span className="text-3xl font-bold">{yearNum}年</span>
+  <span className="text-3xl font-bold text-gray-800 dark:text-gray-200">{yearNum}年</span>
   {nextYear !== null ? (
-    <Link href={`/yearly/${nextYear}`} aria-label={`${nextYear}年の内訳へ`}>▶</Link>
+    <Link
+      href={`/yearly/${nextYear}`}
+      aria-label={`${nextYear}年の内訳へ`}
+      className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+    >
+      ▶
+    </Link>
   ) : (
-    <span className="opacity-30" aria-disabled="true">▶</span>
+    <span
+      className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
+      aria-disabled="true"
+      aria-label="次の年の内訳へ（移動不可）"
+    >
+      ▶
+    </span>
   )}
 </div>
-<h1 className="text-3xl font-bold text-center mb-6">ＮＩＳＡ内訳</h1>
+<h1 className="text-3xl font-bold text-center mb-6">NISA内訳</h1>
 ```
 
 ---
