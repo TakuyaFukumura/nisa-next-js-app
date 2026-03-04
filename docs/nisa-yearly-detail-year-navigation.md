@@ -105,7 +105,7 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
 
 | ファイルパス | 変更内容 |
 |-------------|---------|
-| `src/app/yearly/[year]/page.tsx` | 年ナビゲーション用UIを追加する。ヘッダー部分を `◀ {年}年 ▶ / NISA内訳` の形式に変更する。 |
+| `src/app/yearly/[year]/page.tsx` | 年ナビゲーション用UIを追加する。ヘッダー部分を 1 行目 `◀ {年}年 ▶`、2 行目 `NISA内訳` の 2 行構成に変更する。 |
 
 ---
 
@@ -124,7 +124,8 @@ NISA内訳画面（`/yearly/[year]`）において、前後の年に移動でき
 ### 実装イメージ（擬似コード）
 
 ```tsx
-const sortedYears = records.map((r) => r.year).sort((a, b) => a - b);
+// year はレコード単位でユニークであることを前提とする（同一年のレコードが複数存在する場合は Set でユニーク化すること）
+const sortedYears = [...new Set(records.map((r) => r.year))].sort((a, b) => a - b);
 const currentIndex = sortedYears.indexOf(yearNum);
 
 // currentIndex が -1 の場合は notFound() で処理済みのため、ここには到達しない想定
