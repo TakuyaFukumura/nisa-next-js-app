@@ -34,7 +34,7 @@ export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}
                         label={({name, value}) => `${name}: ${formatAmount(value)}`}
                     >
                         {data.map((_entry, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[index % colors.length]}/>
+                            <Cell key={`cell-${data[index].name}`} fill={colors[index % colors.length]}/>
                         ))}
                     </Pie>
                     <Tooltip formatter={(value: number) => formatAmount(value)}/>
