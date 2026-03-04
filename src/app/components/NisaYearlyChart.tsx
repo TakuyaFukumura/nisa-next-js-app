@@ -15,7 +15,7 @@ import {NisaRecord} from '../../../lib/csvLoader';
 import {formatAmount, YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
 
 type Props = {
-    data: NisaRecord[];
+    readonly data: NisaRecord[];
 };
 
 export default function NisaYearlyChart({data}: Props) {

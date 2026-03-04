@@ -4,9 +4,9 @@ import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from 'rechart
 import {formatAmount} from '../../../lib/nisaConstants';
 
 type Props = {
-    usedAmount: number;
-    remainingAmount: number;
-    usageRate: number;
+    readonly usedAmount: number;
+    readonly remainingAmount: number;
+    readonly usageRate: number;
 };
 
 const COLORS = ['#3b82f6', '#e5e7eb'];
@@ -31,7 +31,7 @@ export default function NisaOverallChart({usedAmount, remainingAmount, usageRate
                         label={({name, value}) => `${name}: ${formatAmount(value)}`}
                     >
                         {data.map((_entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
+                            <Cell key={_entry.name} fill={COLORS[index % COLORS.length]}/>
                         ))}
                     </Pie>
                     <Tooltip formatter={(value: number) => formatAmount(value)}/>
