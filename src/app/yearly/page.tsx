@@ -21,7 +21,7 @@ export default function YearlyPage() {
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
                     <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                        年別投資額（積み上げ棒グラフ）
+                        年別投資額
                     </h2>
                     <NisaYearlyChart data={records}/>
                 </div>
