@@ -31,7 +31,7 @@ export default function NisaOverallChart({usedAmount, remainingAmount, usageRate
                         label={({name, value}) => `${name}: ${formatAmount(value)}`}
                     >
                         {data.map((_entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
+                            <Cell key={_entry.name} fill={COLORS[index % COLORS.length]}/>
                         ))}
                     </Pie>
                     <Tooltip formatter={(value: number) => formatAmount(value)}/>
