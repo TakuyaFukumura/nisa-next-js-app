@@ -5,7 +5,7 @@ import {formatAmount, GROWTH_YEARLY_LIMIT, TSUMITATE_YEARLY_LIMIT} from '../../.
 import NisaYearlyDetailChart from '../../components/NisaYearlyDetailChart';
 
 type Props = {
-    params: Promise<{ year: string }>;
+    readonly params: Promise<{ year: string }>;
 };
 
 export default async function YearDetailPage({params}: Props) {
