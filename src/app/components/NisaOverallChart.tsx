@@ -4,9 +4,9 @@ import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from 'rechart
 import {formatAmount} from '../../../lib/nisaConstants';
 
 type Props = {
-    usedAmount: number;
-    remainingAmount: number;
-    usageRate: number;
+    readonly usedAmount: number;
+    readonly remainingAmount: number;
+    readonly usageRate: number;
 };
 
 const COLORS = ['#3b82f6', '#e5e7eb'];
