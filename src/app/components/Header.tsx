@@ -71,7 +71,7 @@ export default function Header() {
                             onClick={() => setMenuOpen((prev) => !prev)}
                             aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
                             aria-expanded={menuOpen}
-                            aria-controls="mobile-menu"
+                            aria-controls={menuOpen ? 'mobile-menu' : undefined}
                         >
                             ☰
                         </button>

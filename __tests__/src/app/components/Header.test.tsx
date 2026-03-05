@@ -254,7 +254,12 @@ describe('Header', () => {
             renderWithProvider();
 
             const button = screen.getByRole('button', {name: 'メニューを開く'});
-            expect(button).toHaveAttribute('aria-controls', 'mobile-menu');
+            // 閉じている間は aria-controls を付与しない
+            expect(button).not.toHaveAttribute('aria-controls');
+
+            // 開いたときに aria-controls="mobile-menu" が付与される
+            fireEvent.click(button);
+            expect(screen.getByRole('button', {name: 'メニューを閉じる'})).toHaveAttribute('aria-controls', 'mobile-menu');
         });
 
         it('適切なaria属性が設定されている', () => {
