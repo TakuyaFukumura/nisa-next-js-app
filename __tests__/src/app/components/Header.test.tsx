@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, within} from '@testing-library/react';
 import {DarkModeProvider} from '@/app/components/DarkModeProvider';
 import Header from '../../../../src/app/components/Header';
 import '@testing-library/jest-dom';
@@ -272,8 +272,8 @@ describe('Header', () => {
         it('ハンバーガーボタン押下でドロワーが表示される', () => {
             renderWithProvider();
 
-            // 初期状態ではドロワー非表示
-            expect(screen.queryByRole('navigation', {hidden: true})).not.toHaveAttribute('id', 'mobile-menu');
+            // 初期状態ではドロワー非表示（mobile-menu が DOM に存在しないことを確認）
+            expect(document.getElementById('mobile-menu')).toBeNull();
 
             // ボタンをクリック
             const button = screen.getByRole('button', {name: 'メニューを開く'});
@@ -317,8 +317,8 @@ describe('Header', () => {
             expect(document.getElementById('mobile-menu')).toBeInTheDocument();
 
             // ドロワー内の「全体」リンクをクリック
-            const links = screen.getAllByRole('link', {name: '全体'});
-            fireEvent.click(links[links.length - 1]);
+            const mobileMenu = document.getElementById('mobile-menu')!;
+            fireEvent.click(within(mobileMenu).getByRole('link', {name: '全体'}));
 
             // ドロワーが閉じる
             expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();

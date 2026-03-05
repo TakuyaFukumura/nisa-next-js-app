@@ -68,7 +68,7 @@ export default function Header() {
                         <button
                             className="md:hidden flex items-center p-2 text-gray-700 dark:text-gray-300
                             hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-                            onClick={() => setMenuOpen(!menuOpen)}
+                            onClick={() => setMenuOpen((prev) => !prev)}
                             aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
                             aria-expanded={menuOpen}
                             aria-controls="mobile-menu"
