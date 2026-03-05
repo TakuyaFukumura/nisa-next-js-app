@@ -31,7 +31,7 @@ export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}
                         innerRadius={60}
                         outerRadius={90}
                         dataKey="value"
-                        label={({name, value}) => `${name}: ${formatAmount(value)}`}
+                        label={false}
                     >
                         {data.map((_entry, index) => (
                             <Cell key={`cell-${data[index].name}`} fill={colors[index % colors.length]}/>

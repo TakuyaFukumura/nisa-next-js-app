@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, within} from '@testing-library/react';
 import {DarkModeProvider} from '@/app/components/DarkModeProvider';
 import Header from '../../../../src/app/components/Header';
 import '@testing-library/jest-dom';
@@ -52,7 +52,14 @@ describe('Header', () => {
         it('テーマ切り替えボタンが表示される', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
+            expect(button).toBeInTheDocument();
+        });
+
+        it('ハンバーガーボタンが表示される', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
             expect(button).toBeInTheDocument();
         });
     });
@@ -133,7 +140,7 @@ describe('Header', () => {
         it('ボタンのtitle属性が正しく設定される', () => {
             renderWithProvider('light');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle('現在: ライトモード');
             expect(button).toHaveAttribute('title', '現在: ライトモード');
         });
     });
@@ -156,7 +163,7 @@ describe('Header', () => {
         it('ボタンのtitle属性が正しく設定される', () => {
             renderWithProvider('dark');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle('現在: ダークモード');
             expect(button).toHaveAttribute('title', '現在: ダークモード');
         });
     });
@@ -171,7 +178,7 @@ describe('Header', () => {
             expect(screen.getByText('ライトモード')).toBeInTheDocument();
 
             // ボタンをクリック
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             fireEvent.click(button);
 
             // ダークモードに変更されたことを確認
@@ -187,7 +194,7 @@ describe('Header', () => {
             expect(screen.getByText('ダークモード')).toBeInTheDocument();
 
             // ボタンをクリック
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             fireEvent.click(button);
 
             // ライトモードに変更されたことを確認
@@ -198,7 +205,7 @@ describe('Header', () => {
         it('複数回のクリックで正しく切り替わる', () => {
             renderWithProvider('light');
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
 
             // ライトモード → ダークモード
             fireEvent.click(button);
@@ -215,10 +222,10 @@ describe('Header', () => {
     });
 
     describe('ボタンのアクセシビリティ', () => {
-        it('ボタンがキーボードでアクセス可能', () => {
+        it('テーマ切り替えボタンがキーボードでアクセス可能', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             expect(button).toBeInTheDocument();
 
             // タブキーでフォーカス可能かを確認
@@ -226,14 +233,114 @@ describe('Header', () => {
             expect(button).toHaveFocus();
         });
 
+        it('ハンバーガーボタンがキーボードでアクセス可能', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toBeInTheDocument();
+
+            button.focus();
+            expect(button).toHaveFocus();
+        });
+
+        it('ハンバーガーボタンに aria-expanded が設定されている', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toHaveAttribute('aria-expanded', 'false');
+        });
+
+        it('ハンバーガーボタンに aria-controls が設定されている', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            // 閉じている間は aria-controls を付与しない
+            expect(button).not.toHaveAttribute('aria-controls');
+
+            // 開いたときに aria-controls="mobile-menu" が付与される
+            fireEvent.click(button);
+            expect(screen.getByRole('button', {name: 'メニューを閉じる'})).toHaveAttribute('aria-controls', 'mobile-menu');
+        });
+
         it('適切なaria属性が設定されている', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
 
             // title属性による説明があることを確認
             expect(button).toHaveAttribute('title');
             expect(button.getAttribute('title')).toContain('現在:');
+        });
+    });
+
+    describe('ハンバーガーメニューの動作', () => {
+        it('ハンバーガーボタン押下でドロワーが表示される', () => {
+            renderWithProvider();
+
+            // 初期状態ではドロワー非表示（mobile-menu が DOM に存在しないことを確認）
+            expect(document.getElementById('mobile-menu')).toBeNull();
+
+            // ボタンをクリック
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            fireEvent.click(button);
+
+            // ドロワーが表示される
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+        });
+
+        it('ハンバーガーボタン再クリックでドロワーが非表示になる', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+
+            // 開く
+            fireEvent.click(button);
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // 再クリックで閉じる
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを閉じる'}));
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('ドロワー開閉で aria-label が切り替わる', () => {
+            renderWithProvider();
+
+            const button = screen.getByRole('button', {name: 'メニューを開く'});
+            expect(button).toHaveAttribute('aria-expanded', 'false');
+
+            fireEvent.click(button);
+
+            const openButton = screen.getByRole('button', {name: 'メニューを閉じる'});
+            expect(openButton).toHaveAttribute('aria-expanded', 'true');
+        });
+
+        it('ドロワー内リンクをクリックするとメニューが閉じる', () => {
+            renderWithProvider();
+
+            // ドロワーを開く
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // ドロワー内の「全体」リンクをクリック
+            const mobileMenu = document.getElementById('mobile-menu')!;
+            fireEvent.click(within(mobileMenu).getByRole('link', {name: '全体'}));
+
+            // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('メニュー外クリックでドロワーが閉じる', () => {
+            renderWithProvider();
+
+            // ドロワーを開く
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            expect(document.getElementById('mobile-menu')).toBeInTheDocument();
+
+            // ヘッダー外をクリック
+            fireEvent.mouseDown(document.body);
+
+            // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
         });
     });
 
@@ -264,10 +371,10 @@ describe('Header', () => {
             expect(header).toHaveClass('bg-white/80', 'dark:bg-gray-800/80');
         });
 
-        it('ボタンに適切なスタイルクラスが適用される', () => {
+        it('テーマ切り替えボタンに適切なスタイルクラスが適用される', () => {
             renderWithProvider();
 
-            const button = screen.getByRole('button');
+            const button = screen.getByTitle(/現在:/);
             expect(button).toHaveClass('flex', 'items-center', 'gap-2');
         });
     });
