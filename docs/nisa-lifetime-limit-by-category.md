@@ -80,7 +80,7 @@
 - 種別名（「つみたて投資枠」または「成長投資枠」）
 - プログレスバー（利用率を視覚的に表現）
 - 利用率（パーセンテージ）
-- 利用済み金額 / 生涯上限金額
+- 利用済み金額 / 生涯上限金額（残り枠）
 
 ---
 
@@ -140,6 +140,8 @@ export const GROWTH_LIFETIME_LIMIT = 12000000;
 種別別の生涯投資枠利用状況を表示するコンポーネントを作成する。
 
 ```tsx
+import { formatAmount, TSUMITATE_LIFETIME_LIMIT, GROWTH_LIFETIME_LIMIT } from '@/lib/nisaConstants';
+
 type Props = {
   readonly label: string;
   readonly usedAmount: number;
@@ -165,8 +167,8 @@ export default function NisaCategoryChart({ label, usedAmount, lifetimeLimit, te
         />
       </div>
       <div className="text-xs text-gray-500 dark:text-gray-400">
-        利用済み: {usedAmount.toLocaleString('ja-JP')}円 / {lifetimeLimit.toLocaleString('ja-JP')}円
-        （残り {remainingAmount.toLocaleString('ja-JP')}円）
+        利用済み: {formatAmount(usedAmount)} / {formatAmount(lifetimeLimit)}
+        （残り {formatAmount(remainingAmount)}）
       </div>
     </div>
   );
