@@ -82,6 +82,9 @@ export default function Header() {
                             <Link href="/" className={navLinkClass('/')}>
                                 全体
                             </Link>
+                            <Link href="/breakdown" className={navLinkClass('/breakdown')}>
+                                NISA内訳
+                            </Link>
                             <Link href="/yearly" className={navLinkClass('/yearly')}>
                                 年別
                             </Link>
@@ -113,6 +116,13 @@ export default function Header() {
                             onClick={() => setMenuOpen(false)}
                         >
                             全体
+                        </Link>
+                        <Link
+                            href="/breakdown"
+                            className={navLinkClass('/breakdown')}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            NISA内訳
                         </Link>
                         <Link
                             href="/yearly"
