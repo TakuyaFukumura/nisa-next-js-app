@@ -23,6 +23,11 @@ export default async function YearDetailPage({params}: Props) {
         notFound();
     }
 
+    const sortedYears = [...new Set(records.map((r) => r.year))].sort((a, b) => a - b);
+    const currentIndex = sortedYears.indexOf(yearNum);
+    const prevYear = currentIndex > 0 ? sortedYears[currentIndex - 1] : null;
+    const nextYear = currentIndex < sortedYears.length - 1 ? sortedYears[currentIndex + 1] : null;
+
     const tsumitateRate = (record.tsumitateAmount / TSUMITATE_YEARLY_LIMIT) * 100;
     const growthRate = (record.growthAmount / GROWTH_YEARLY_LIMIT) * 100;
 
@@ -30,9 +35,44 @@ export default async function YearDetailPage({params}: Props) {
         <div
             className="min-h-[calc(100vh-4rem)] bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 lg:p-6">
             <main className="max-w-3xl mx-auto">
-                <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
-                    {yearNum}年 NISA内訳
-                </h1>
+                <div className="flex items-center justify-center gap-4 mb-2">
+                    {prevYear !== null ? (
+                        <Link
+                            href={`/yearly/${prevYear}`}
+                            aria-label={`${prevYear}年の内訳へ`}
+                            className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        >
+                            ◀
+                        </Link>
+                    ) : (
+                        <button
+                            disabled
+                            aria-label="前の年の内訳へ（移動不可）"
+                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
+                        >
+                            ◀
+                        </button>
+                    )}
+                    <span className="text-3xl font-bold text-gray-800 dark:text-gray-200">{yearNum}年</span>
+                    {nextYear !== null ? (
+                        <Link
+                            href={`/yearly/${nextYear}`}
+                            aria-label={`${nextYear}年の内訳へ`}
+                            className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        >
+                            ▶
+                        </Link>
+                    ) : (
+                        <button
+                            disabled
+                            aria-label="次の年の内訳へ（移動不可）"
+                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
+                        >
+                            ▶
+                        </button>
+                    )}
+                </div>
+                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">NISA内訳</h1>
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
