@@ -101,8 +101,8 @@
 積立投資枠 残り枠 = max(0, TSUMITATE_LIFETIME_LIMIT - 積立投資枠 利用済み)
 成長投資枠 残り枠 = max(0, GROWTH_LIFETIME_LIMIT - 成長投資枠 利用済み)
 
-積立投資枠 利用率 = (積立投資枠 利用済み / TSUMITATE_LIFETIME_LIMIT) * 100
-成長投資枠 利用率 = (成長投資枠 利用済み / GROWTH_LIFETIME_LIMIT) * 100
+積立投資枠 利用率 = TSUMITATE_LIFETIME_LIMIT > 0 ? (積立投資枠 利用済み / TSUMITATE_LIFETIME_LIMIT) * 100 : 0
+成長投資枠 利用率 = GROWTH_LIFETIME_LIMIT > 0 ? (成長投資枠 利用済み / GROWTH_LIFETIME_LIMIT) * 100 : 0
 ```
 
 ### 定数追加
@@ -185,8 +185,14 @@ export default function NisaCategoryChart({ label, usedAmount, lifetimeLimit, te
 4. 既存のサマリーカード群の下に、種別別利用状況セクションを追加する。
 
 ```tsx
-const tsumitateUsed = records.reduce((sum, r) => sum + r.tsumitateAmount, 0);
-const growthUsed = records.reduce((sum, r) => sum + r.growthAmount, 0);
+const { tsumitateUsed, growthUsed } = records.reduce(
+  (acc, r) => ({
+    tsumitateUsed: acc.tsumitateUsed + r.tsumitateAmount,
+    growthUsed: acc.growthUsed + r.growthAmount,
+  }),
+  { tsumitateUsed: 0, growthUsed: 0 },
+);
+const usedAmount = tsumitateUsed + growthUsed;
 ```
 
 ```tsx
