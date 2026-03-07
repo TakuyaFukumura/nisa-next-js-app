@@ -47,7 +47,6 @@ export default async function YearDetailPage({params}: Props) {
                     ) : (
                         <span
                             className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
-                            aria-disabled="true"
                             aria-label="前の年の内訳へ（移動不可）"
                         >
                             ◀
@@ -65,7 +64,6 @@ export default async function YearDetailPage({params}: Props) {
                     ) : (
                         <span
                             className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
-                            aria-disabled="true"
                             aria-label="次の年の内訳へ（移動不可）"
                         >
                             ▶
