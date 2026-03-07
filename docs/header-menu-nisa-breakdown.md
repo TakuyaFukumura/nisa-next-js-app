@@ -6,6 +6,15 @@
 
 ---
 
+## 既存仕様との関係・優先順位
+
+- 既存の仕様書 `docs/nisa-lifetime-limit-by-category.md` では、トップページ（`/`）に生涯投資枠の種別別内訳を表示するための仕様が定義されている。
+- `NisaCategoryChart` コンポーネントおよび `TSUMITATE_LIFETIME_LIMIT` / `GROWTH_LIFETIME_LIMIT` 定数は、**`docs/nisa-lifetime-limit-by-category.md` を正とし、トップページ `/` と本ページ `/breakdown` で共用する**ことを前提とする。
+- 本仕様書では、ヘッダーメニューへの「NISA内訳」追加と、新規ページ `/breakdown` 固有の挙動・レイアウトのみを定義し、コンポーネント実装や定数値そのものの再定義は行わない。
+- 万一、両仕様間で `NisaCategoryChart` や生涯投資枠定数の定義に差異が生じた場合は、`docs/nisa-lifetime-limit-by-category.md` を優先し、本書を更新して整合性を取るものとする。
+
+---
+
 ## 現状
 
 ### ヘッダーメニュー構成（現状）
@@ -233,7 +242,7 @@ export const GROWTH_LIFETIME_LIMIT = 12000000;
 
 モバイルメニューにも同様のリンクを追加する。
 
-`navLinkClass` 関数のアクティブ判定は `pathname === href` の完全一致ですでに対応しているため、追加の修正は不要である。
+現在の `navLinkClass` 関数は、`pathname === href` による完全一致に加え、`/yearly` に対しては `pathname.startsWith('/yearly')` を用いたサブルート対応の特別扱いを行っている。`/breakdown` にサブルート（例：`/breakdown/[category]`）を追加する場合は、同様に `pathname.startsWith('/breakdown')` を用いた条件を `navLinkClass` に追加する必要がある。
 
 ### `src/app/components/NisaCategoryChart.tsx` の新規作成
 
