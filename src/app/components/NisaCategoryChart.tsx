@@ -13,7 +13,7 @@ type Props = {
 export default function NisaCategoryChart({label, usedAmount, lifetimeLimit, textColorClass, bgColorClass}: Props) {
     const remainingAmount = Math.max(0, lifetimeLimit - usedAmount);
     const usageRate = lifetimeLimit > 0 ? (usedAmount / lifetimeLimit) * 100 : 0;
-    const clampedUsageRate = Math.min(100, usageRate);
+    const clampedUsageRate = Math.min(100, Math.max(0, usageRate));
 
     return (
         <div className="mb-4">
@@ -26,10 +26,10 @@ export default function NisaCategoryChart({label, usedAmount, lifetimeLimit, tex
                     className={`h-3 rounded-full ${bgColorClass}`}
                     style={{width: `${clampedUsageRate}%`}}
                     role="progressbar"
-                    aria-valuenow={clampedUsageRate}
+                    aria-valuenow={Math.min(lifetimeLimit, Math.max(0, usedAmount))}
                     aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={`${label} の利用状況`}
+                    aria-valuemax={lifetimeLimit}
+                    aria-label={label}
                 />
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">

@@ -44,31 +44,44 @@ describe('NisaCategoryChart', () => {
     });
 
     describe('プログレスバーのスタイル', () => {
-        it('バーに指定した bgColorClass が適用される', () => {
-            const {container} = render(<NisaCategoryChart {...defaultProps} />);
+        it('バーに指定した bgColorClass が適用され、ARIA 属性が設定される', () => {
+            render(<NisaCategoryChart {...defaultProps} />);
 
-            const bar = container.querySelector('.bg-blue-500');
+            const bar = screen.getByRole('progressbar', {name: 'つみたて投資枠'});
             expect(bar).toBeInTheDocument();
+            expect(bar).toHaveClass('bg-blue-500');
+            expect(bar).toHaveAttribute('aria-valuemin', '0');
+            expect(bar).toHaveAttribute('aria-valuemax', defaultProps.lifetimeLimit.toString());
+            expect(bar).toHaveAttribute('aria-valuenow', defaultProps.usedAmount.toString());
         });
 
-        it('利用率に応じた幅がスタイルに設定される', () => {
-            const {container} = render(<NisaCategoryChart {...defaultProps} />);
+        it('利用率に応じた幅と ARIA 値が設定される', () => {
+            render(<NisaCategoryChart {...defaultProps} />);
 
-            const bar = container.querySelector('.bg-blue-500');
+            const bar = screen.getByRole('progressbar', {name: 'つみたて投資枠'});
             expect(bar).toHaveStyle({width: '50%'});
+            expect(bar).toHaveAttribute('aria-valuemin', '0');
+            expect(bar).toHaveAttribute('aria-valuemax', defaultProps.lifetimeLimit.toString());
+            expect(bar).toHaveAttribute('aria-valuenow', defaultProps.usedAmount.toString());
         });
 
-        it('利用率が100%を超えてもバー幅は100%に制限される', () => {
-            const {container} = render(
+        it('利用率が100%を超えてもバー幅と ARIA 値は上限に制限される', () => {
+            const usedAmountOverLimit = 9000000;
+            const lifetimeLimit = 6000000;
+
+            render(
                 <NisaCategoryChart
                     {...defaultProps}
-                    usedAmount={9000000}
-                    lifetimeLimit={6000000}
+                    usedAmount={usedAmountOverLimit}
+                    lifetimeLimit={lifetimeLimit}
                 />,
             );
 
-            const bar = container.querySelector('.bg-blue-500');
+            const bar = screen.getByRole('progressbar', {name: 'つみたて投資枠'});
             expect(bar).toHaveStyle({width: '100%'});
+            expect(bar).toHaveAttribute('aria-valuemin', '0');
+            expect(bar).toHaveAttribute('aria-valuemax', lifetimeLimit.toString());
+            expect(bar).toHaveAttribute('aria-valuenow', lifetimeLimit.toString());
             expect(screen.getByText('100.0%')).toBeInTheDocument();
         });
     });
