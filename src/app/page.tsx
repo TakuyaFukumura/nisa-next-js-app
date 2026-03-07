@@ -1,13 +1,22 @@
 import Link from 'next/link';
 import {loadNisaData} from '../../lib/csvLoader';
-import {formatAmount, NISA_TOTAL_LIMIT} from '../../lib/nisaConstants';
+import {formatAmount, GROWTH_LIFETIME_LIMIT, NISA_TOTAL_LIMIT, TSUMITATE_LIFETIME_LIMIT} from '../../lib/nisaConstants';
+import NisaCategoryChart from './components/NisaCategoryChart';
 import NisaOverallChart from './components/NisaOverallChart';
 
 export default function Home() {
     const records = loadNisaData();
-    const usedAmount = records.reduce((sum, r) => sum + r.tsumitateAmount + r.growthAmount, 0);
+    const {tsumitateUsed, growthUsed} = records.reduce(
+        (acc, r) => {
+            acc.tsumitateUsed += r.tsumitateAmount;
+            acc.growthUsed += r.growthAmount;
+            return acc;
+        },
+        {tsumitateUsed: 0, growthUsed: 0},
+    );
+    const usedAmount = tsumitateUsed + growthUsed;
     const remainingAmount = Math.max(0, NISA_TOTAL_LIMIT - usedAmount);
-    const usageRate = (usedAmount / NISA_TOTAL_LIMIT) * 100;
+    const usageRate = NISA_TOTAL_LIMIT > 0 ? (usedAmount / NISA_TOTAL_LIMIT) * 100 : 0;
 
     return (
         <div
@@ -53,6 +62,27 @@ export default function Home() {
                                 {usageRate.toFixed(1)}%
                             </div>
                         </div>
+                    </div>
+
+                    {/* 種別別 生涯投資枠 利用状況 */}
+                    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
+                        <h3 className="text-base font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                            種別別 生涯投資枠 利用状況
+                        </h3>
+                        <NisaCategoryChart
+                            label="つみたて投資枠"
+                            usedAmount={tsumitateUsed}
+                            lifetimeLimit={TSUMITATE_LIFETIME_LIMIT}
+                            textColorClass="text-blue-500"
+                            bgColorClass="bg-blue-500"
+                        />
+                        <NisaCategoryChart
+                            label="成長投資枠"
+                            usedAmount={growthUsed}
+                            lifetimeLimit={GROWTH_LIFETIME_LIMIT}
+                            textColorClass="text-green-500"
+                            bgColorClass="bg-green-500"
+                        />
                     </div>
                 </div>
 
