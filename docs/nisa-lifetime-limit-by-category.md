@@ -64,11 +64,11 @@
 │                                         │
 │  つみたて投資枠                          │
 │  ████████████░░░░░░░░  XX.X%           │
-│  利用済み: X,XXX,XXX円 / 6,000,000円    │
+│  利用済み: X,XXX,XXX円 / 6,000,000円（残り X,XXX,XXX円）│
 │                                         │
 │  成長投資枠                              │
 │  ████████████░░░░░░░░  XX.X%           │
-│  利用済み: X,XXX,XXX円 / 12,000,000円   │
+│  利用済み: X,XXX,XXX円 / 12,000,000円（残り X,XXX,XXX円）│
 │                                         │
 └─────────────────────────────────────────┘
 ```
@@ -140,7 +140,9 @@ export const GROWTH_LIFETIME_LIMIT = 12000000;
 種別別の生涯投資枠利用状況を表示するコンポーネントを作成する。
 
 ```tsx
-import { formatAmount, TSUMITATE_LIFETIME_LIMIT, GROWTH_LIFETIME_LIMIT } from '@/lib/nisaConstants';
+'use client';
+
+import { formatAmount } from '../../../lib/nisaConstants';
 
 type Props = {
   readonly label: string;
