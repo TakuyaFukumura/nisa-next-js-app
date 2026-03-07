@@ -141,25 +141,26 @@ export const GROWTH_LIFETIME_LIMIT = 12000000;
 
 ```tsx
 type Props = {
-  label: string;
-  usedAmount: number;
-  lifetimeLimit: number;
-  colorClass: string;
+  readonly label: string;
+  readonly usedAmount: number;
+  readonly lifetimeLimit: number;
+  readonly textColorClass: string;
+  readonly bgColorClass: string;
 };
 
-export default function NisaCategoryChart({ label, usedAmount, lifetimeLimit, colorClass }: Props) {
+export default function NisaCategoryChart({ label, usedAmount, lifetimeLimit, textColorClass, bgColorClass }: Props) {
   const remainingAmount = Math.max(0, lifetimeLimit - usedAmount);
-  const usageRate = (usedAmount / lifetimeLimit) * 100;
+  const usageRate = lifetimeLimit > 0 ? (usedAmount / lifetimeLimit) * 100 : 0;
 
   return (
     <div className="mb-4">
       <div className="flex justify-between items-center mb-1">
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
-        <span className={`text-sm font-semibold ${colorClass}`}>{usageRate.toFixed(1)}%</span>
+        <span className={`text-sm font-semibold ${textColorClass}`}>{usageRate.toFixed(1)}%</span>
       </div>
       <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-1">
         <div
-          className={`h-3 rounded-full ${colorClass.replace('text-', 'bg-')}`}
+          className={`h-3 rounded-full ${bgColorClass}`}
           style={{ width: `${Math.min(100, usageRate)}%` }}
         />
       </div>
@@ -194,13 +195,15 @@ const growthUsed = records.reduce((sum, r) => sum + r.growthAmount, 0);
     label="つみたて投資枠"
     usedAmount={tsumitateUsed}
     lifetimeLimit={TSUMITATE_LIFETIME_LIMIT}
-    colorClass="text-blue-500"
+    textColorClass="text-blue-500"
+    bgColorClass="bg-blue-500"
   />
   <NisaCategoryChart
     label="成長投資枠"
     usedAmount={growthUsed}
     lifetimeLimit={GROWTH_LIFETIME_LIMIT}
-    colorClass="text-green-500"
+    textColorClass="text-green-500"
+    bgColorClass="bg-green-500"
   />
 </div>
 ```
@@ -248,3 +251,6 @@ const growthUsed = records.reduce((sum, r) => sum + r.growthAmount, 0);
 | 利用済み金額が生涯上限を超過している | プログレスバーは100%で頭打ちにする（`Math.min(100, usageRate)`） |
 | データが0件 | 利用済み0円・利用率0%として表示する |
 | 利用済み金額が0円 | プログレスバーは0%（空）で表示する |
+
+> 備考: 利用済み金額が0円のときはプログレスバー幅が `0%` となり、実装によっては `div` の `width: 0%` では塗りつぶし部分が視覚的に確認できない（`rounded-full` などの装飾も見えない）場合がある。
+> そのため、0% 時でも「空のバー」であることが分かるように、背景トラックや枠線を表示する・最小幅を設けるなど、0% 幅要素の描画方法を実装時に検討すること。
