@@ -72,7 +72,7 @@ export default async function YearDetailPage({params}: Props) {
                         </span>
                     )}
                 </div>
-                <h1 className="text-3xl font-bold text-center mb-6">NISA内訳</h1>
+                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">NISA内訳</h1>
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
