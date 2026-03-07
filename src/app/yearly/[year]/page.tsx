@@ -45,13 +45,13 @@ export default async function YearDetailPage({params}: Props) {
                             ◀
                         </Link>
                     ) : (
-                        <span
-                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
-                            role="img"
+                        <button
+                            disabled
                             aria-label="前の年の内訳へ（移動不可）"
+                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
                         >
                             ◀
-                        </span>
+                        </button>
                     )}
                     <span className="text-3xl font-bold text-gray-800 dark:text-gray-200">{yearNum}年</span>
                     {nextYear !== null ? (
@@ -63,13 +63,13 @@ export default async function YearDetailPage({params}: Props) {
                             ▶
                         </Link>
                     ) : (
-                        <span
-                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default"
-                            role="img"
+                        <button
+                            disabled
                             aria-label="次の年の内訳へ（移動不可）"
+                            className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
                         >
                             ▶
-                        </span>
+                        </button>
                     )}
                 </div>
                 <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">NISA内訳</h1>
