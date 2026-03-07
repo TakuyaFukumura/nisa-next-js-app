@@ -7,10 +7,11 @@ import NisaOverallChart from './components/NisaOverallChart';
 export default function Home() {
     const records = loadNisaData();
     const {tsumitateUsed, growthUsed} = records.reduce(
-        (acc, r) => ({
-            tsumitateUsed: acc.tsumitateUsed + r.tsumitateAmount,
-            growthUsed: acc.growthUsed + r.growthAmount,
-        }),
+        (acc, r) => {
+            acc.tsumitateUsed += r.tsumitateAmount;
+            acc.growthUsed += r.growthAmount;
+            return acc;
+        },
         {tsumitateUsed: 0, growthUsed: 0},
     );
     const usedAmount = tsumitateUsed + growthUsed;

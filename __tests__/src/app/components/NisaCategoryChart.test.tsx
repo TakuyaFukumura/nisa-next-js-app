@@ -69,6 +69,7 @@ describe('NisaCategoryChart', () => {
 
             const bar = container.querySelector('.bg-blue-500');
             expect(bar).toHaveStyle({width: '100%'});
+            expect(screen.getByText('100.0%')).toBeInTheDocument();
         });
     });
 
