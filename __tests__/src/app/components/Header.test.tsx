@@ -22,14 +22,14 @@ describe('Header', () => {
         mockUsePathname.mockReturnValue('/');
     });
 
-    const renderWithProvider = (initialTheme?: 'light' | 'dark') => {
+    const renderWithProvider = (initialTheme?: 'light' | 'dark', latestYear: number | null = 2026) => {
         if (initialTheme) {
             window.localStorage.getItem = jest.fn(() => initialTheme);
         }
 
         return render(
             <DarkModeProvider>
-                <Header/>
+                <Header latestYear={latestYear}/>
             </DarkModeProvider>
         );
     };
@@ -77,6 +77,12 @@ describe('Header', () => {
             expect(screen.getByRole('link', {name: '年別'})).toBeInTheDocument();
         });
 
+        it('NISA内訳リンクが表示される', () => {
+            renderWithProvider();
+
+            expect(screen.getByRole('link', {name: 'NISA内訳'})).toBeInTheDocument();
+        });
+
         it('全体リンクのhrefが正しい', () => {
             renderWithProvider();
 
@@ -89,6 +95,13 @@ describe('Header', () => {
 
             const link = screen.getByRole('link', {name: '年別'});
             expect(link).toHaveAttribute('href', '/yearly');
+        });
+
+        it('NISA内訳リンクのhrefが正しい', () => {
+            renderWithProvider();
+
+            const link = screen.getByRole('link', {name: 'NISA内訳'});
+            expect(link).toHaveAttribute('href', '/yearly/2026');
         });
 
         it('現在のパスが / の場合、全体リンクがアクティブ状態になる', () => {
@@ -107,12 +120,36 @@ describe('Header', () => {
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2024 の場合、年別リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly/2024 の場合、年別リンクはアクティブ状態にならない', () => {
             mockUsePathname.mockReturnValue('/yearly/2024');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別'});
+            const inactiveLink = screen.getByRole('link', {name: '年別'});
+            expect(inactiveLink).not.toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /yearly/2024 の場合、NISA内訳リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/yearly/2024');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: 'NISA内訳'});
             expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /yearly/2026 の場合、NISA内訳リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/yearly/2026');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: 'NISA内訳'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが / の場合、NISA内訳リンクはアクティブ状態にならない', () => {
+            mockUsePathname.mockReturnValue('/');
+            renderWithProvider();
+
+            const inactiveLink = screen.getByRole('link', {name: 'NISA内訳'});
+            expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
         it('現在のパスが / の場合、年別リンクはアクティブ状態にならない', () => {
@@ -121,6 +158,12 @@ describe('Header', () => {
 
             const inactiveLink = screen.getByRole('link', {name: '年別'});
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
+        });
+
+        it('latestYear が null の場合、NISA内訳リンクが表示されない', () => {
+            renderWithProvider(undefined, null);
+
+            expect(screen.queryByRole('link', {name: 'NISA内訳'})).not.toBeInTheDocument();
         });
     });
 

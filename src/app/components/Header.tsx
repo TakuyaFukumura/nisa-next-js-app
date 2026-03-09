@@ -5,7 +5,11 @@ import {usePathname} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import {useDarkMode} from './DarkModeProvider';
 
-export default function Header() {
+type Props = {
+    readonly latestYear: number | null;
+};
+
+export default function Header({latestYear}: Props) {
     const {theme, setTheme} = useDarkMode();
     const pathname = usePathname();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -36,7 +40,10 @@ export default function Header() {
     };
 
     const navLinkClass = (href: string) => {
-        const isActive = pathname !== null && (pathname === href || (href === '/yearly' && pathname.startsWith('/yearly')));
+        const isActive = pathname !== null && (
+            pathname === href ||
+            (href.startsWith('/yearly/') && pathname.startsWith('/yearly/'))
+        );
         return `px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
             isActive
                 ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
@@ -85,6 +92,11 @@ export default function Header() {
                             <Link href="/yearly" className={navLinkClass('/yearly')}>
                                 年別
                             </Link>
+                            {latestYear !== null && (
+                                <Link href={`/yearly/${latestYear}`} className={navLinkClass(`/yearly/${latestYear}`)}>
+                                    NISA内訳
+                                </Link>
+                            )}
                         </nav>
                     </div>
 
@@ -121,6 +133,15 @@ export default function Header() {
                         >
                             年別
                         </Link>
+                        {latestYear !== null && (
+                            <Link
+                                href={`/yearly/${latestYear}`}
+                                className={navLinkClass(`/yearly/${latestYear}`)}
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                NISA内訳
+                            </Link>
+                        )}
                     </nav>
                 </div>
             )}
