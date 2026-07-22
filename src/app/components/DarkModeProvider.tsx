@@ -13,18 +13,17 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider({children}: { readonly children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('light');
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
+    const [theme, setTheme] = useState<Theme>(() => {
         // ブラウザ環境のみlocalStorageにアクセス
         if (globalThis.window !== undefined) {
             const savedTheme = localStorage.getItem('theme') as Theme;
             if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
-                setTheme(savedTheme);
+                return savedTheme;
             }
         }
-    }, []);
+        return 'light';
+    });
+    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
         const updateTheme = () => {
