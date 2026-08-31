@@ -174,10 +174,10 @@ describe('Header', () => {
             expect(screen.getByText('☀️')).toBeInTheDocument();
         });
 
-        it('ライトモード時のラベルが表示される', () => {
+        it('ライトモード時のラベルを表示しない', () => {
             renderWithProvider('light');
 
-            expect(screen.getByText('ライトモード')).toBeInTheDocument();
+            expect(screen.queryByText('ライトモード')).not.toBeInTheDocument();
         });
 
         it('ボタンのtitle属性が正しく設定される', () => {
@@ -196,11 +196,11 @@ describe('Header', () => {
             expect(screen.getByText('🌙')).toBeInTheDocument();
         });
 
-        it('ダークモード時のラベルが表示される', () => {
+        it('ダークモード時のラベルを表示しない', () => {
             window.localStorage.setItem('theme', 'dark');
             renderWithProvider();
 
-            expect(screen.getByText('ダークモード')).toBeInTheDocument();
+            expect(screen.queryByText('ダークモード')).not.toBeInTheDocument();
         });
 
         it('ボタンのtitle属性が正しく設定される', () => {
@@ -218,7 +218,6 @@ describe('Header', () => {
 
             // 初期状態の確認
             expect(screen.getByText('☀️')).toBeInTheDocument();
-            expect(screen.getByText('ライトモード')).toBeInTheDocument();
 
             // ボタンをクリック
             const button = screen.getByTitle(/現在:/);
@@ -226,7 +225,6 @@ describe('Header', () => {
 
             // ダークモードに変更されたことを確認
             expect(screen.getByText('🌙')).toBeInTheDocument();
-            expect(screen.getByText('ダークモード')).toBeInTheDocument();
         });
 
         it('ダークモードからライトモードに切り替わる', () => {
@@ -234,7 +232,6 @@ describe('Header', () => {
 
             // 初期状態の確認
             expect(screen.getByText('🌙')).toBeInTheDocument();
-            expect(screen.getByText('ダークモード')).toBeInTheDocument();
 
             // ボタンをクリック
             const button = screen.getByTitle(/現在:/);
@@ -242,7 +239,6 @@ describe('Header', () => {
 
             // ライトモードに変更されたことを確認
             expect(screen.getByText('☀️')).toBeInTheDocument();
-            expect(screen.getByText('ライトモード')).toBeInTheDocument();
         });
 
         it('複数回のクリックで正しく切り替わる', () => {
@@ -393,10 +389,8 @@ describe('Header', () => {
             renderWithProvider();
         });
 
-        it('テキストラベルが適切なクラスで制御されている', () => {
-            // 'hidden sm:inline' クラスでモバイルでは非表示になることを想定
-            const textLabel = screen.getByText('ライトモード');
-            expect(textLabel).toHaveClass('hidden', 'sm:inline');
+        it('テーマのテキストラベルを表示しない', () => {
+            expect(screen.queryByText('ライトモード')).not.toBeInTheDocument();
         });
 
         it('アイコンが常に表示される', () => {
@@ -422,4 +416,3 @@ describe('Header', () => {
         });
     });
 });
-
