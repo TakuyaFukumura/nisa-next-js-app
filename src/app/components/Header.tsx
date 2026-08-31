@@ -94,7 +94,7 @@ export default function Header({latestYear}: Props) {
                             </Link>
                             {latestYear !== null && (
                                 <Link href={`/yearly/${latestYear}`} className={navLinkClass(`/yearly/${latestYear}`)}>
-                                    NISA内訳
+                                    年別内訳
                                 </Link>
                             )}
                         </nav>
@@ -139,7 +139,7 @@ export default function Header({latestYear}: Props) {
                                 className={navLinkClass(`/yearly/${latestYear}`)}
                                 onClick={() => setMenuOpen(false)}
                             >
-                                NISA内訳
+                                年別内訳
                             </Link>
                         )}
                     </nav>
