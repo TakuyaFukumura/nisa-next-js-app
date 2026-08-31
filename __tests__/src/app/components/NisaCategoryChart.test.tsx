@@ -2,7 +2,7 @@
  * NisaCategoryChart コンポーネントのテスト
  *
  * このテストファイルは、src/app/components/NisaCategoryChart.tsx の機能をテストします。
- * 種別別生涯投資枠の利用状況表示（プログレスバー・利用率・金額）をテストしています。
+ * 生涯投資枠の内訳表示（プログレスバー・利用率・金額）をテストしています。
  */
 
 import React from 'react';

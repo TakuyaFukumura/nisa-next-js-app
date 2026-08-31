@@ -64,10 +64,10 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* 種別別 生涯投資枠 利用状況 */}
+                    {/* 内訳 */}
                     <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
                         <h3 className="text-base font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                            種別別 生涯投資枠 利用状況
+                            内訳
                         </h3>
                         <NisaCategoryChart
                             label="つみたて投資枠"
