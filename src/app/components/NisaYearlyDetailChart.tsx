@@ -46,6 +46,7 @@ export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1 space-y-1">
                 <div>利用済み: {formatAmount(usedAmount)}</div>
+                <div>上限: {formatAmount(limit)}</div>
                 <div>残り枠: {formatAmount(remainingAmount)}</div>
             </div>
         </div>
