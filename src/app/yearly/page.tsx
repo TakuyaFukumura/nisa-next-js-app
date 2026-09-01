@@ -35,7 +35,6 @@ export default function YearlyPage() {
                             <th className="text-right py-2 px-3 text-gray-600 dark:text-gray-400">成長投資枠</th>
                             <th className="text-right py-2 px-3 text-gray-600 dark:text-gray-400">合計</th>
                             <th className="text-right py-2 px-3 text-gray-600 dark:text-gray-400">利用率</th>
-                            <th className="py-2 px-3"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,7 +49,13 @@ export default function YearlyPage() {
                                     className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
                                 >
                                     <td className="py-3 px-3 font-medium text-gray-800 dark:text-gray-200">
-                                        {record.year}年
+                                        <Link
+                                            href={`/yearly/${record.year}`}
+                                            className="text-blue-600 dark:text-blue-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                                            aria-label={`${record.year}年の詳細を見る`}
+                                        >
+                                            {record.year}年
+                                        </Link>
                                     </td>
                                     <td className="py-3 px-3 text-right text-gray-700 dark:text-gray-300">
                                         {formatAmount(record.tsumitateAmount)}
@@ -69,15 +74,6 @@ export default function YearlyPage() {
                                     </td>
                                     <td className="py-3 px-3 text-right text-blue-600 dark:text-blue-400 font-medium">
                                         {usageRate.toFixed(1)}%
-                                    </td>
-                                    <td className="py-3 px-3 text-center">
-                                        <Link
-                                            href={`/yearly/${record.year}`}
-                                            className="text-blue-600 dark:text-blue-400 hover:underline"
-                                            aria-label={`${record.year}年の詳細を見る`}
-                                        >
-                                            →
-                                        </Link>
                                     </td>
                                 </tr>
                             );
