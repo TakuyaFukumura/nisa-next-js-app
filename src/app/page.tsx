@@ -28,7 +28,7 @@ export default function Home() {
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
                     <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                        生涯投資枠 利用状況
+                        生涯投資枠
                     </h2>
 
                     <NisaOverallChart

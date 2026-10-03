@@ -88,27 +88,27 @@ describe('NisaCategoryChart', () => {
 
     describe('エッジケース', () => {
         it('利用済み金額が0円のとき利用率は0.0%と表示される', () => {
-            render(<NisaCategoryChart {...defaultProps} usedAmount={0} />);
+            render(<NisaCategoryChart {...defaultProps} usedAmount={0}/>);
 
             expect(screen.getByText('0.0%')).toBeInTheDocument();
             expect(screen.getByText(/残り 6,000,000円/)).toBeInTheDocument();
         });
 
         it('生涯上限が0のとき利用率は0.0%と表示される', () => {
-            render(<NisaCategoryChart {...defaultProps} usedAmount={0} lifetimeLimit={0} />);
+            render(<NisaCategoryChart {...defaultProps} usedAmount={0} lifetimeLimit={0}/>);
 
             expect(screen.getByText('0.0%')).toBeInTheDocument();
         });
 
         it('利用済み金額が生涯上限と等しいとき残り枠は0円と表示される', () => {
-            render(<NisaCategoryChart {...defaultProps} usedAmount={6000000} />);
+            render(<NisaCategoryChart {...defaultProps} usedAmount={6000000}/>);
 
             expect(screen.getByText('100.0%')).toBeInTheDocument();
             expect(screen.getByText(/残り 0円/)).toBeInTheDocument();
         });
 
         it('利用済み金額が生涯上限を超えても残り枠は0円と表示される', () => {
-            render(<NisaCategoryChart {...defaultProps} usedAmount={7000000} />);
+            render(<NisaCategoryChart {...defaultProps} usedAmount={7000000}/>);
 
             expect(screen.getByText(/残り 0円/)).toBeInTheDocument();
         });
@@ -116,7 +116,7 @@ describe('NisaCategoryChart', () => {
 
     describe('textColorClass の適用', () => {
         it('利用率テキストに指定した textColorClass が適用される', () => {
-            render(<NisaCategoryChart {...defaultProps} textColorClass="text-green-500" />);
+            render(<NisaCategoryChart {...defaultProps} textColorClass="text-green-500"/>);
 
             const rateText = screen.getByText('50.0%');
             expect(rateText).toHaveClass('text-green-500');

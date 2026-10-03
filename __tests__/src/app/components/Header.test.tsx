@@ -71,16 +71,22 @@ describe('Header', () => {
             expect(screen.getByRole('link', {name: '全体'})).toBeInTheDocument();
         });
 
-        it('年別一覧リンクが表示される', () => {
+        it('年別リンクが表示される', () => {
             renderWithProvider();
 
-            expect(screen.getByRole('link', {name: '年別一覧'})).toBeInTheDocument();
+            expect(screen.getByRole('link', {name: '年別'})).toBeInTheDocument();
         });
 
-        it('年別内訳リンクが表示される', () => {
+        it('解説リンクが表示される', () => {
             renderWithProvider();
 
-            expect(screen.getByRole('link', {name: '年別内訳'})).toBeInTheDocument();
+            expect(screen.getByRole('link', {name: '解説'})).toBeInTheDocument();
+        });
+
+        it('詳細リンクが表示される', () => {
+            renderWithProvider();
+
+            expect(screen.getByRole('link', {name: '詳細'})).toBeInTheDocument();
         });
 
         it('全体リンクのhrefが正しい', () => {
@@ -90,17 +96,36 @@ describe('Header', () => {
             expect(link).toHaveAttribute('href', '/');
         });
 
-        it('年別一覧リンクのhrefが正しい', () => {
+        it('年別リンクのhrefが正しい', () => {
             renderWithProvider();
 
-            const link = screen.getByRole('link', {name: '年別一覧'});
+            const link = screen.getByRole('link', {name: '年別'});
             expect(link).toHaveAttribute('href', '/yearly');
         });
 
-        it('年別内訳リンクのhrefが正しい', () => {
+        it('解説リンクのhrefが正しい', () => {
             renderWithProvider();
 
-            const link = screen.getByRole('link', {name: '年別内訳'});
+            const link = screen.getByRole('link', {name: '解説'});
+            expect(link).toHaveAttribute('href', '/about');
+        });
+
+        it('解説リンクがデスクトップとモバイルのメニュー末尾に表示される', () => {
+            renderWithProvider();
+
+            const expectedLinks = ['全体', '年別', '詳細', '解説'];
+            const desktopNav = screen.getByRole('navigation');
+            expect(within(desktopNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
+
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            const mobileNav = within(document.getElementById('mobile-menu')!).getByRole('navigation');
+            expect(within(mobileNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
+        });
+
+        it('詳細リンクのhrefが正しい', () => {
+            renderWithProvider();
+
+            const link = screen.getByRole('link', {name: '詳細'});
             expect(link).toHaveAttribute('href', '/yearly/2026');
         });
 
@@ -112,58 +137,66 @@ describe('Header', () => {
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly の場合、年別一覧リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly の場合、年別リンクがアクティブ状態になる', () => {
             mockUsePathname.mockReturnValue('/yearly');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別一覧'});
+            const activeLink = screen.getByRole('link', {name: '年別'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2024 の場合、年別一覧リンクはアクティブ状態にならない', () => {
+        it('現在のパスが /about の場合、解説リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/about');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: '解説'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /yearly/2024 の場合、年別リンクはアクティブ状態にならない', () => {
             mockUsePathname.mockReturnValue('/yearly/2024');
             renderWithProvider();
 
-            const inactiveLink = screen.getByRole('link', {name: '年別一覧'});
+            const inactiveLink = screen.getByRole('link', {name: '年別'});
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2024 の場合、年別内訳リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly/2024 の場合、詳細リンクがアクティブ状態になる', () => {
             mockUsePathname.mockReturnValue('/yearly/2024');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別内訳'});
+            const activeLink = screen.getByRole('link', {name: '詳細'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2026 の場合、年別内訳リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly/2026 の場合、詳細リンクがアクティブ状態になる', () => {
             mockUsePathname.mockReturnValue('/yearly/2026');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別内訳'});
+            const activeLink = screen.getByRole('link', {name: '詳細'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが / の場合、年別内訳リンクはアクティブ状態にならない', () => {
+        it('現在のパスが / の場合、詳細リンクはアクティブ状態にならない', () => {
             mockUsePathname.mockReturnValue('/');
             renderWithProvider();
 
-            const inactiveLink = screen.getByRole('link', {name: '年別内訳'});
+            const inactiveLink = screen.getByRole('link', {name: '詳細'});
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが / の場合、年別一覧リンクはアクティブ状態にならない', () => {
+        it('現在のパスが / の場合、年別リンクはアクティブ状態にならない', () => {
             mockUsePathname.mockReturnValue('/');
             renderWithProvider();
 
-            const inactiveLink = screen.getByRole('link', {name: '年別一覧'});
+            const inactiveLink = screen.getByRole('link', {name: '年別'});
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
-        it('latestYear が null の場合、年別内訳リンクが表示されない', () => {
+        it('latestYear が null の場合、詳細リンクが表示されない', () => {
             renderWithProvider(undefined, null);
 
-            expect(screen.queryByRole('link', {name: '年別内訳'})).not.toBeInTheDocument();
+            expect(screen.queryByRole('link', {name: '詳細'})).not.toBeInTheDocument();
         });
     });
 
@@ -365,6 +398,16 @@ describe('Header', () => {
             fireEvent.click(within(mobileMenu).getByRole('link', {name: '全体'}));
 
             // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('解説リンクをクリックするとメニューが閉じる', () => {
+            renderWithProvider();
+
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            const mobileMenu = document.getElementById('mobile-menu')!;
+            fireEvent.click(within(mobileMenu).getByRole('link', {name: '解説'}));
+
             expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
         });
 

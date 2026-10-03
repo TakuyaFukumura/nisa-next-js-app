@@ -13,12 +13,14 @@ import {
 } from 'recharts';
 import {NisaRecord} from '../../../lib/csvLoader';
 import {formatAmount, YEARLY_TOTAL_LIMIT} from '../../../lib/nisaConstants';
+import {useDarkMode} from './DarkModeProvider';
 
 type Props = {
     readonly data: NisaRecord[];
 };
 
 export default function NisaYearlyChart({data}: Props) {
+    const {isDark} = useDarkMode();
     const chartData = data.map((d) => ({
         year: `${d.year}年`,
         つみたて投資枠: d.tsumitateAmount,
@@ -29,7 +31,7 @@ export default function NisaYearlyChart({data}: Props) {
         <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData} margin={{top: 10, right: 10, left: 10, bottom: 5}}>
                 <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="year"/>
+                <XAxis dataKey="year" tick={{fill: isDark ? '#d1d5db' : '#666'}}/>
                 <YAxis tickFormatter={(v: number) => `${(v / 10000).toFixed(0)}万`}/>
                 <Tooltip formatter={(value: number) => formatAmount(value)}/>
                 <Legend/>

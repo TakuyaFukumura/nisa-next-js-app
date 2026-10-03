@@ -90,13 +90,16 @@ export default function Header({latestYear}: Props) {
                                 全体
                             </Link>
                             <Link href="/yearly" className={navLinkClass('/yearly')}>
-                                年別一覧
+                                年別
                             </Link>
                             {latestYear !== null && (
                                 <Link href={`/yearly/${latestYear}`} className={navLinkClass(`/yearly/${latestYear}`)}>
-                                    年別内訳
+                                    詳細
                                 </Link>
                             )}
+                            <Link href="/about" className={navLinkClass('/about')}>
+                                解説
+                            </Link>
                         </nav>
                     </div>
 
@@ -131,7 +134,7 @@ export default function Header({latestYear}: Props) {
                             className={navLinkClass('/yearly')}
                             onClick={() => setMenuOpen(false)}
                         >
-                            年別一覧
+                            年別
                         </Link>
                         {latestYear !== null && (
                             <Link
@@ -139,9 +142,16 @@ export default function Header({latestYear}: Props) {
                                 className={navLinkClass(`/yearly/${latestYear}`)}
                                 onClick={() => setMenuOpen(false)}
                             >
-                                年別内訳
+                                詳細
                             </Link>
                         )}
+                        <Link
+                            href="/about"
+                            className={navLinkClass('/about')}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            解説
+                        </Link>
                     </nav>
                 </div>
             )}
