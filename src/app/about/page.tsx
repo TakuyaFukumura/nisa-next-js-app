@@ -1,6 +1,10 @@
 import Link from 'next/link';
+import {loadNisaData} from '../../../lib/csvLoader';
 
 export default function AboutPage() {
+    const records = loadNisaData();
+    const latestYear = records.length > 0 ? Math.max(...records.map((record) => record.year)) : null;
+
     return (
         <div
             className="min-h-[calc(100vh-4rem)] bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 lg:p-6">
@@ -45,7 +49,16 @@ export default function AboutPage() {
                         </article>
                         <article>
                             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">
-                                年別詳細
+                                {latestYear === null ? (
+                                    '年別詳細'
+                                ) : (
+                                    <Link
+                                        href={`/yearly/${latestYear}`}
+                                        className="text-blue-600 dark:text-blue-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                                    >
+                                        年別詳細
+                                    </Link>
+                                )}
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                                 選択した年のつみたて投資枠・成長投資枠について、利用済み額や年間上限に対する利用率、残り枠を確認できます。左右の矢印で年を切り替えられます。
