@@ -90,7 +90,7 @@ export default function Header({latestYear}: Props) {
                                 全体
                             </Link>
                             <Link href="/yearly" className={navLinkClass('/yearly')}>
-                                年別一覧
+                                年別
                             </Link>
                             {latestYear !== null && (
                                 <Link href={`/yearly/${latestYear}`} className={navLinkClass(`/yearly/${latestYear}`)}>
@@ -134,7 +134,7 @@ export default function Header({latestYear}: Props) {
                             className={navLinkClass('/yearly')}
                             onClick={() => setMenuOpen(false)}
                         >
-                            年別一覧
+                            年別
                         </Link>
                         {latestYear !== null && (
                             <Link
