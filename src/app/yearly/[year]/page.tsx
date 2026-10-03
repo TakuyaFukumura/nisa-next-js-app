@@ -36,7 +36,7 @@ export default async function YearDetailPage({params}: Props) {
                     {prevYear !== null ? (
                         <Link
                             href={`/yearly/${prevYear}`}
-                            aria-label={`${prevYear}年の内訳へ`}
+                            aria-label={`${prevYear}年の詳細へ`}
                             className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                         >
                             ◀
@@ -44,7 +44,7 @@ export default async function YearDetailPage({params}: Props) {
                     ) : (
                         <button
                             disabled
-                            aria-label="前の年の内訳へ（移動不可）"
+                            aria-label="前の年の詳細へ（移動不可）"
                             className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
                         >
                             ◀
@@ -54,7 +54,7 @@ export default async function YearDetailPage({params}: Props) {
                     {nextYear !== null ? (
                         <Link
                             href={`/yearly/${nextYear}`}
-                            aria-label={`${nextYear}年の内訳へ`}
+                            aria-label={`${nextYear}年の詳細へ`}
                             className="text-2xl text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                         >
                             ▶
@@ -62,14 +62,14 @@ export default async function YearDetailPage({params}: Props) {
                     ) : (
                         <button
                             disabled
-                            aria-label="次の年の内訳へ（移動不可）"
+                            aria-label="次の年の詳細へ（移動不可）"
                             className="text-2xl text-gray-400 dark:text-gray-600 opacity-30 cursor-default bg-transparent border-0 p-0"
                         >
                             ▶
                         </button>
                     )}
                 </div>
-                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">年別内訳</h1>
+                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">年別詳細</h1>
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

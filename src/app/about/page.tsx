@@ -45,7 +45,7 @@ export default function AboutPage() {
                         </article>
                         <article>
                             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">
-                                年別内訳
+                                年別詳細
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                                 選択した年のつみたて投資枠・成長投資枠について、利用済み額や年間上限に対する利用率、残り枠を確認できます。左右の矢印で年を切り替えられます。

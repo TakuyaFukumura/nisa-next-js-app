@@ -83,10 +83,10 @@ describe('Header', () => {
             expect(screen.getByRole('link', {name: '解説'})).toBeInTheDocument();
         });
 
-        it('年別内訳リンクが表示される', () => {
+        it('年別詳細リンクが表示される', () => {
             renderWithProvider();
 
-            expect(screen.getByRole('link', {name: '年別内訳'})).toBeInTheDocument();
+            expect(screen.getByRole('link', {name: '年別詳細'})).toBeInTheDocument();
         });
 
         it('全体リンクのhrefが正しい', () => {
@@ -113,7 +113,7 @@ describe('Header', () => {
         it('解説リンクがデスクトップとモバイルのメニュー末尾に表示される', () => {
             renderWithProvider();
 
-            const expectedLinks = ['全体', '年別一覧', '年別内訳', '解説'];
+            const expectedLinks = ['全体', '年別一覧', '年別詳細', '解説'];
             const desktopNav = screen.getByRole('navigation');
             expect(within(desktopNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
 
@@ -122,10 +122,10 @@ describe('Header', () => {
             expect(within(mobileNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
         });
 
-        it('年別内訳リンクのhrefが正しい', () => {
+        it('年別詳細リンクのhrefが正しい', () => {
             renderWithProvider();
 
-            const link = screen.getByRole('link', {name: '年別内訳'});
+            const link = screen.getByRole('link', {name: '年別詳細'});
             expect(link).toHaveAttribute('href', '/yearly/2026');
         });
 
@@ -161,27 +161,27 @@ describe('Header', () => {
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2024 の場合、年別内訳リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly/2024 の場合、年別詳細リンクがアクティブ状態になる', () => {
             mockUsePathname.mockReturnValue('/yearly/2024');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別内訳'});
+            const activeLink = screen.getByRole('link', {name: '年別詳細'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが /yearly/2026 の場合、年別内訳リンクがアクティブ状態になる', () => {
+        it('現在のパスが /yearly/2026 の場合、年別詳細リンクがアクティブ状態になる', () => {
             mockUsePathname.mockReturnValue('/yearly/2026');
             renderWithProvider();
 
-            const activeLink = screen.getByRole('link', {name: '年別内訳'});
+            const activeLink = screen.getByRole('link', {name: '年別詳細'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
-        it('現在のパスが / の場合、年別内訳リンクはアクティブ状態にならない', () => {
+        it('現在のパスが / の場合、年別詳細リンクはアクティブ状態にならない', () => {
             mockUsePathname.mockReturnValue('/');
             renderWithProvider();
 
-            const inactiveLink = screen.getByRole('link', {name: '年別内訳'});
+            const inactiveLink = screen.getByRole('link', {name: '年別詳細'});
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
@@ -193,10 +193,10 @@ describe('Header', () => {
             expect(inactiveLink).not.toHaveClass('bg-blue-100');
         });
 
-        it('latestYear が null の場合、年別内訳リンクが表示されない', () => {
+        it('latestYear が null の場合、年別詳細リンクが表示されない', () => {
             renderWithProvider(undefined, null);
 
-            expect(screen.queryByRole('link', {name: '年別内訳'})).not.toBeInTheDocument();
+            expect(screen.queryByRole('link', {name: '年別詳細'})).not.toBeInTheDocument();
         });
     });
 

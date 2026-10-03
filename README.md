@@ -16,7 +16,7 @@ NISAの利用状況をグラフで視覚的に表示するWebアプリケーシ�
 
 - NISA全体利用状況の可視化（生涯投資枠 1,800万円に対するドーナッツグラフ）
 - 年別NISA利用状況の可視化（積み上げ棒グラフ＋テーブル）
-- 年別内訳グラフ（つみたて投資枠・成長投資枠の各ドーナッツグラフ）
+- 年別詳細グラフ（つみたて投資枠・成長投資枠の各ドーナッツグラフ）
 - アプリの紹介と各画面の使い方をまとめた解説ページ
 - CSVファイルからのデータ読み込み
 - レスポンシブデザイン対応
@@ -122,11 +122,11 @@ pnpm start
 │       │   ├── Header.tsx              # ヘッダーコンポーネント
 │       │   ├── NisaOverallChart.tsx    # NISA全体グラフ
 │       │   ├── NisaYearlyChart.tsx     # 年別グラフ
-│       │   └── NisaYearlyDetailChart.tsx # 年別内訳グラフ
+│       │   └── NisaYearlyDetailChart.tsx # 年別詳細グラフ
 │       ├── yearly/
 │       │   ├── page.tsx               # 年別利用状況画面
 │       │   └── [year]/
-│       │       └── page.tsx           # 年別内訳グラフ画面
+│       │       └── page.tsx           # 年別詳細グラフ画面
 │       ├── globals.css      # グローバルスタイル
 │       ├── layout.tsx       # アプリケーションレイアウト
 │       └── page.tsx         # NISA全体利用状況画面
