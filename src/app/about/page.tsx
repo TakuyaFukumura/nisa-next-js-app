@@ -58,6 +58,12 @@ export default function AboutPage() {
                     <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">
                         表示データについて
                     </h2>
+                    <p
+                        role="note"
+                        className="mb-3 rounded-lg bg-amber-50 dark:bg-amber-900/30 px-3 py-2 text-sm font-medium text-amber-800 dark:text-amber-200"
+                    >
+                        ※表示されているデータはサンプルです。
+                    </p>
                     <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                         投資額は登録された年別データをもとに集計しています。表示内容は記録された金額の確認用であり、投資助言を行うものではありません。
                     </p>
