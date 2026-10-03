@@ -77,6 +77,12 @@ describe('Header', () => {
             expect(screen.getByRole('link', {name: '年別一覧'})).toBeInTheDocument();
         });
 
+        it('解説リンクが表示される', () => {
+            renderWithProvider();
+
+            expect(screen.getByRole('link', {name: '解説'})).toBeInTheDocument();
+        });
+
         it('年別内訳リンクが表示される', () => {
             renderWithProvider();
 
@@ -95,6 +101,25 @@ describe('Header', () => {
 
             const link = screen.getByRole('link', {name: '年別一覧'});
             expect(link).toHaveAttribute('href', '/yearly');
+        });
+
+        it('解説リンクのhrefが正しい', () => {
+            renderWithProvider();
+
+            const link = screen.getByRole('link', {name: '解説'});
+            expect(link).toHaveAttribute('href', '/about');
+        });
+
+        it('解説リンクがデスクトップとモバイルのメニュー末尾に表示される', () => {
+            renderWithProvider();
+
+            const expectedLinks = ['全体', '年別一覧', '年別内訳', '解説'];
+            const desktopNav = screen.getByRole('navigation');
+            expect(within(desktopNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
+
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            const mobileNav = within(document.getElementById('mobile-menu')!).getByRole('navigation');
+            expect(within(mobileNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expectedLinks);
         });
 
         it('年別内訳リンクのhrefが正しい', () => {
@@ -117,6 +142,14 @@ describe('Header', () => {
             renderWithProvider();
 
             const activeLink = screen.getByRole('link', {name: '年別一覧'});
+            expect(activeLink).toHaveClass('bg-blue-100');
+        });
+
+        it('現在のパスが /about の場合、解説リンクがアクティブ状態になる', () => {
+            mockUsePathname.mockReturnValue('/about');
+            renderWithProvider();
+
+            const activeLink = screen.getByRole('link', {name: '解説'});
             expect(activeLink).toHaveClass('bg-blue-100');
         });
 
@@ -365,6 +398,16 @@ describe('Header', () => {
             fireEvent.click(within(mobileMenu).getByRole('link', {name: '全体'}));
 
             // ドロワーが閉じる
+            expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
+        });
+
+        it('解説リンクをクリックするとメニューが閉じる', () => {
+            renderWithProvider();
+
+            fireEvent.click(screen.getByRole('button', {name: 'メニューを開く'}));
+            const mobileMenu = document.getElementById('mobile-menu')!;
+            fireEvent.click(within(mobileMenu).getByRole('link', {name: '解説'}));
+
             expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
         });
 

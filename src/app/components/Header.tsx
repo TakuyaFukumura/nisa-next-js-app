@@ -97,6 +97,9 @@ export default function Header({latestYear}: Props) {
                                     年別内訳
                                 </Link>
                             )}
+                            <Link href="/about" className={navLinkClass('/about')}>
+                                解説
+                            </Link>
                         </nav>
                     </div>
 
@@ -142,6 +145,13 @@ export default function Header({latestYear}: Props) {
                                 年別内訳
                             </Link>
                         )}
+                        <Link
+                            href="/about"
+                            className={navLinkClass('/about')}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            解説
+                        </Link>
                     </nav>
                 </div>
             )}
