@@ -16,7 +16,7 @@ export default function YearlyPage() {
             className="min-h-[calc(100vh-4rem)] bg-linear-to-br  from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 lg:p-6">
             <main className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
-                    年別NISA利用状況
+                    年別利用状況
                 </h1>
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
