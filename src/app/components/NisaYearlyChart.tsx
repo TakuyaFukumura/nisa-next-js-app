@@ -33,7 +33,7 @@ export default function NisaYearlyChart({data}: Props) {
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="year" tick={{fill: isDark ? '#d1d5db' : '#666'}}/>
                 <YAxis tickFormatter={(v: number) => `${(v / 10000).toFixed(0)}万`}/>
-                <Tooltip formatter={(value: number) => formatAmount(value)}/>
+                <Tooltip formatter={(value) => typeof value === 'number' ? formatAmount(value) : ''}/>
                 <Legend/>
                 <ReferenceLine
                     y={YEARLY_TOTAL_LIMIT}
