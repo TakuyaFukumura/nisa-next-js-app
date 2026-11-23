@@ -34,7 +34,7 @@ export default function NisaOverallChart({usedAmount, remainingAmount, usageRate
                             <Cell key={_entry.name} fill={COLORS[index % COLORS.length]}/>
                         ))}
                     </Pie>
-                    <Tooltip formatter={(value: number) => formatAmount(value)}/>
+                    <Tooltip formatter={(value) => typeof value === 'number' ? formatAmount(value) : ''}/>
                     <Legend/>
                 </PieChart>
             </ResponsiveContainer>

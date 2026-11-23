@@ -37,7 +37,7 @@ export default function NisaYearlyDetailChart({title, usedAmount, limit, colors}
                             <Cell key={`cell-${data[index].name}`} fill={colors[index % colors.length]}/>
                         ))}
                     </Pie>
-                    <Tooltip formatter={(value: number) => formatAmount(value)}/>
+                    <Tooltip formatter={(value) => typeof value === 'number' ? formatAmount(value) : ''}/>
                     <Legend/>
                 </PieChart>
             </ResponsiveContainer>
